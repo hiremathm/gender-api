@@ -1,0 +1,50 @@
+<%= form_for(@name) do |f| %>
+  <% if @name.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@name.errors.count, "error") %> prohibited this name from being saved:</h2>
+
+      <ul>
+      <% @name.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+    
+  </div>
+  <div class="actions">
+    <%= f.submit "createElement" %>
+  </div>
+<% end %>
+<button id = "handle">GET Gender</button>
+<span id ="answer"> Your gender is : </span>
+
+<script>
+  nameHandle = document.getElementById('name_name')
+  formHandle = document.getElementById('new_name')
+  answerHandle = document.getElementById('answer')
+  handle = document.getElementById('handle')
+  handle.addEventListener('click',function(){
+    var xhr = new XMLHttpRequest()
+    url = "http://localhost:3000/names/find_gender?name=" + nameHandle.value
+    xhr.open('GET',url)
+    xhr.onreadystatechange = function(){
+      if( xhr.readyState == 4 && xhr.status == 200){
+        response = JSON.parse(xhr.responseText)
+        response.forEach(function(res){
+          var span = document.createElement('span')
+          var text = document.createTextNode(res.gender)
+          console.log(text)
+          span.appendChild(text)
+          answerHandle.appendChild(span);
+        });
+      }
+
+    }
+    xhr.send()
+  },false)
+</script>
