@@ -35,10 +35,10 @@
     xhr.onreadystatechange = function(){
       if( xhr.readyState == 4 && xhr.status == 200){
         response = JSON.parse(xhr.responseText)
+        answerHandle.innerHTML = "";
         response.forEach(function(res){
           var span = document.createElement('span')
           var text = document.createTextNode(res.gender)
-          console.log(text)
           span.appendChild(text)
           answerHandle.appendChild(span);
         });
