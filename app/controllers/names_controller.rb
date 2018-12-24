@@ -1,6 +1,8 @@
 class NamesController < ApplicationController
   before_action :set_name, only: [:show, :edit, :update, :destroy]
 
+  skip_before_action :verify_authenticity_token, only: [:find_gender_webhook]
+
   # GET /names
   # GET /names.json
   def index
@@ -53,6 +55,18 @@ class NamesController < ApplicationController
         format.json { render json: @name.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+
+
+  def find_gender_webhook
+    # @gender = ""
+    binding.pry
+    name = params["name"]
+    url ="https://gender-api.com/get?name=#{name}&key=AtuqEuWPyABdWYorNr"
+    response = HTTParty.get(url)
+    @gender = response["gender"]
+    @gender
   end
 
   # DELETE /names/1

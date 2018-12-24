@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
   get 'names/find_gender'
+
+  get '/find_gender_webhook/:name', to: 'names#find_gender_webhook', as: :find_gender_webhook
+
+  post '/find_gender_webhook', to: 'names#find_gender_webhook'
   resources :names
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
